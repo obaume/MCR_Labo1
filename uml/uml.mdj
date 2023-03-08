@@ -61,7 +61,7 @@
 											"font": "Arial;13;3",
 											"left": 661,
 											"top": 255,
-											"width": 94.64990234375,
+											"width": 139.80712890625,
 											"height": 13,
 											"text": "Clock"
 										},
@@ -96,7 +96,7 @@
 									"font": "Arial;13;0",
 									"left": 656,
 									"top": 248,
-									"width": 104.64990234375,
+									"width": 149.80712890625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGGeVOfEOyfJ2g="
@@ -187,7 +187,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 280,
-											"width": 94.64990234375,
+											"width": 139.80712890625,
 											"height": 13,
 											"text": "-second: int",
 											"horizontalAlignment": 0
@@ -204,7 +204,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 295,
-											"width": 94.64990234375,
+											"width": 139.80712890625,
 											"height": 13,
 											"text": "-minut: int",
 											"horizontalAlignment": 0
@@ -221,7 +221,7 @@
 											"font": "Arial;13;0",
 											"left": 661,
 											"top": 310,
-											"width": 94.64990234375,
+											"width": 139.80712890625,
 											"height": 13,
 											"text": "-hour: int",
 											"horizontalAlignment": 0
@@ -243,13 +243,30 @@
 											"height": 13,
 											"text": "+Attribute3",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAGGnW/TEQ2eQBo=",
+											"_parent": {
+												"$ref": "AAAAAAGGeVOfEOyjx4E="
+											},
+											"model": {
+												"$ref": "AAAAAAGGnW/TCw2bpS0="
+											},
+											"font": "Arial;13;0",
+											"left": 661,
+											"top": 325,
+											"width": 139.80712890625,
+											"height": 13,
+											"text": "-subject: Chrono",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 656,
 									"top": 273,
-									"width": 104.64990234375,
-									"height": 55
+									"width": 149.80712890625,
+									"height": 70
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -272,10 +289,10 @@
 											},
 											"font": "Arial;13;0",
 											"left": 661,
-											"top": 333,
-											"width": 94.64990234375,
+											"top": 348,
+											"width": 139.80712890625,
 											"height": 13,
-											"text": "+Clock()",
+											"text": "+Clock(subject: Chrono)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -289,8 +306,8 @@
 											},
 											"font": "Arial;13;0",
 											"left": 661,
-											"top": 348,
-											"width": 94.64990234375,
+											"top": 363,
+											"width": 139.80712890625,
 											"height": 13,
 											"text": "+update(): void",
 											"horizontalAlignment": 0
@@ -298,8 +315,8 @@
 									],
 									"font": "Arial;13;0",
 									"left": 656,
-									"top": 328,
-									"width": 104.64990234375,
+									"top": 343,
+									"width": 149.80712890625,
 									"height": 38
 								},
 								{
@@ -339,7 +356,7 @@
 							"containerChangeable": true,
 							"left": 656,
 							"top": 248,
-							"width": 104.64990234375,
+							"width": 149.80712890625,
 							"height": 133,
 							"nameCompartment": {
 								"$ref": "AAAAAAGGeVOfD+yeYbw="
@@ -1014,7 +1031,7 @@
 											"top": 179,
 											"width": 154.26708984375,
 											"height": 13,
-											"text": "+notify(): void",
+											"text": "+notifyObservers(): void",
 											"horizontalAlignment": 0
 										}
 									],
@@ -1938,16 +1955,17 @@
 									"model": {
 										"$ref": "AAAAAAGGeWfYvvDM3WI="
 									},
-									"visible": false,
 									"font": "Arial;13;0",
-									"left": 365,
+									"left": 362,
 									"top": 325,
+									"width": 7.22998046875,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
 									"hostEdge": {
 										"$ref": "AAAAAAGGeWfYvvDO82g="
-									}
+									},
+									"text": "1"
 								},
 								{
 									"_type": "UMLQualifierCompartmentView",
@@ -2319,7 +2337,7 @@
 							"tail": {
 								"$ref": "AAAAAAGGeWleR/mcaJE="
 							},
-							"points": "836:536;836:314;760:314",
+							"points": "836:536;836:314;805:314",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGGeWlecfnkUUw="
@@ -3522,7 +3540,8 @@
 								"reference": {
 									"$ref": "AAAAAAGGeVjAhOzrqgc="
 								},
-								"navigable": "navigable"
+								"navigable": "navigable",
+								"multiplicity": "1"
 							}
 						}
 					],
@@ -3593,6 +3612,18 @@
 							},
 							"name": "Attribute3",
 							"type": ""
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAGGnW/TCw2bpS0=",
+							"_parent": {
+								"$ref": "AAAAAAGGeVOfD+ybZb0="
+							},
+							"name": "subject",
+							"visibility": "private",
+							"type": {
+								"$ref": "AAAAAAGGeVNqJ+xxKhU="
+							}
 						}
 					],
 					"operations": [
@@ -3602,7 +3633,20 @@
 							"_parent": {
 								"$ref": "AAAAAAGGeVOfD+ybZb0="
 							},
-							"name": "Clock"
+							"name": "Clock",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGGnW/J2A1REU4=",
+									"_parent": {
+										"$ref": "AAAAAAGGeYCOailKxpo="
+									},
+									"name": "subject",
+									"type": {
+										"$ref": "AAAAAAGGeVNqJ+xxKhU="
+									}
+								}
+							]
 						},
 						{
 							"_type": "UMLOperation",
@@ -4080,7 +4124,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGGeV2jPO1xdXk="
 							},
-							"name": "notify",
+							"name": "notifyObservers",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
