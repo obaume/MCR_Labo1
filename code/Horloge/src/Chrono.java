@@ -70,4 +70,8 @@ public class Chrono implements Subject{
             o.update();
         }
     }
+
+    public String name(){
+        return "Chron #" + id;
+    }
 }
