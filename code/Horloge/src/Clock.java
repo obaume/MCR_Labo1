@@ -12,7 +12,7 @@ public class Clock extends JFrame implements Observer {
         second = subject.getSecond();
         minute = subject.getMinute();
         hour = subject.getHour();
-
+        panel = new JPanel();
         panel.setBounds(0,0,200,200);
         id = new TextField();
         id.setText(subject.name());
