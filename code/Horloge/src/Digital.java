@@ -7,9 +7,7 @@ public class Digital extends Clock{
         super(subject);
         setBackground(Color.gray);
         label = new JLabel(subject.name() + ": 00h 00m 00s");
-        Dimension size = label.getPreferredSize();
-        label.setBounds(110 - size.width/2 + 5,110 - size.height/2,size.width + 10,size.height);
-        this.setLayout(null);
+        this.setLayout(new GridBagLayout());
         add(label);
         label.setText(subject.name() + ": " + hour +"h "+ minute +"m "+ second +"s");
     }

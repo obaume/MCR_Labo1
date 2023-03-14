@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.security.KeyStore;
 import java.util.LinkedList;
 import javax.swing.*;
 
@@ -149,18 +150,12 @@ public class Main extends JFrame {
         romanAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Roman[] romans = new Roman[chronos.length];
-                JFrame frame = new JFrame();
-                frame.setResizable(false);
-                frame.setSize(new Dimension(dimension.width * chronos.length,dimension.height));
-                frame.setLocationRelativeTo(null);
-                frame.setLayout(new GridLayout());
+                JFrame frame = new JFrame("Toutes les horloges romaines");
+                frame.setLayout(new FlowLayout());
                 for(int i = 0; i < chronos.length; ++i){
-                    romans[i] = new Roman(chronos[i]);
-                    romans[i].setLocation(i * dimension.width, 0);
-                    frame.add(romans[i]);
+                    frame.add(new Roman(chronos[i]));
                 }
-                frame.setResizable(false);
+                frame.pack();
                 frame.revalidate();
                 frame.setVisible(true);
             }
@@ -169,18 +164,14 @@ public class Main extends JFrame {
         arabicAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Arab[] arabs = new Arab[chronos.length];
-                JFrame frame = new JFrame();
-                frame.setResizable(false);
+                JFrame frame = new JFrame("Toutes les horloges arabiques");
                 frame.setSize(new Dimension(dimension.width * chronos.length,dimension.height));
                 frame.setLocationRelativeTo(null);
-                frame.setLayout(new GridLayout());
+                frame.setLayout(new FlowLayout());
                 for(int i = 0; i < chronos.length; ++i){
-                    arabs[i] = new Arab(chronos[i]);
-                    arabs[i].setLocation(i * dimension.width, 0);
-                    frame.add(arabs[i]);
+                    frame.add(new Arab(chronos[i]));
                 }
-                frame.setResizable(false);
+                frame.pack();
                 frame.revalidate();
                 frame.setVisible(true);
             }
@@ -189,18 +180,12 @@ public class Main extends JFrame {
         digitalAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Digital[] digitals = new Digital[chronos.length];
-                JFrame frame = new JFrame();
-                frame.setResizable(false);
+                JFrame frame = new JFrame("Toutes les horloges numériques");
                 frame.setSize(new Dimension(dimension.width * chronos.length,dimension.height));
-                frame.setLocationRelativeTo(null);
-                frame.setLayout(new GridLayout());
+                frame.setLayout(new FlowLayout());
                 for(int i = 0; i < chronos.length; ++i){
-                    digitals[i] = new Digital(chronos[i]);
-                    digitals[i].setLocation(i * dimension.width, 0);
-                    frame.add(digitals[i]);
+                    frame.add(new Digital(chronos[i]));
                 }
-                frame.setResizable(false);
                 frame.revalidate();
                 frame.setVisible(true);
             }
