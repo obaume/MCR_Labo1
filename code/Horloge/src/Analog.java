@@ -1,64 +1,71 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.*;
 
 public class Analog extends Clock {
+    JLabel label;
     private Color secondHandColor,minuteHandColor,hourHandColor;
     private Image bgImage;
+    private String filenameImageClock;
 
     Analog(Chrono subject,String filenameImageClock, Color secondHandColor, Color minuteHandColor, Color hourHandColor){
         super(subject);
         this.secondHandColor = secondHandColor;
         this.minuteHandColor = minuteHandColor;
         this.hourHandColor = hourHandColor;
-        bgImage = Toolkit.getDefaultToolkit().getImage(filenameImageClock);
-        bgImage.getScaledInstance(200,200,Image.SCALE_DEFAULT);
-        panel.getGraphics().drawImage(bgImage,0,0,null);
-        id.setBounds(110,80,20,10);
+        this.filenameImageClock = filenameImageClock;
+
+        bgImage = Toolkit.getDefaultToolkit().getImage(filenameImageClock)
+                .getScaledInstance(200,200,Image.SCALE_AREA_AVERAGING);
+
+        label = new JLabel(subject.name());
+        Dimension size = label.getPreferredSize();
+        label.setBounds(80,120,size.width + 10,size.height);
+        this.setLayout(null);
+        add(label);
+
     }
     @Override
     public void update(){
         super.update();
-        getGraphics().clearRect(0,0,200,200);
-        // secondes
-        drawHand(secondHandColor,360/second,80,1);
-        // minutes
-        drawHand(minuteHandColor,360/minute,60,2);
-        // heures
-        drawHand(hourHandColor,360/hour,40,3);
+        repaint();
     }
-    void drawHand(Color c, double angle, int length, int thickness){
-        final int CENTRE_POSITION_X = 100,CENTRE_POSITION_Y = 100;
-        double deltaX=0, deltaY=0;
+    @Override
+    public void paintComponent(Graphics g){
+        final int THICKNESS_SEC = 2,THICKNESS_MIN = 4,THICKNESS_HOUR = 6;
+        final int LENGTH_SEC = 70,LENGTH_MIN = 50,LENGTH_HOUR = 30;
+        double angle;
 
-        panel.getGraphics().setColor(c);
-        ((Graphics2D)panel.getGraphics()).setStroke(new BasicStroke(thickness));
+        g.drawImage(bgImage,0,0,this);
 
+        // desine la second hand
+        angle = second * 6;
+        paintHand(g, secondHandColor,THICKNESS_SEC,LENGTH_SEC,angle);
 
-        if (angle > 0 && angle < 90){
-            deltaX = Math.sin(angle);
-            deltaY = Math.cos(angle);
-        }
-        if(angle > 90 && angle < 180){
-            deltaX = Math.cos(angle-90);
-            deltaY = -Math.sin(angle-90);
-        }
-        if(angle > 180 && angle < 270){
-            deltaX = -Math.sin(angle-180);
-            deltaY = -Math.cos(angle-180);
-        }
-        if(angle > 270 && angle < 360){
-            deltaX = Math.cos(angle-270);
-            deltaY = -Math.sin(angle-270);
-        }
-        deltaX *= length;
-        deltaY *= length;
+        // dessine les minutes
+        angle = minute * 6;
+        paintHand(g,minuteHandColor,THICKNESS_MIN,LENGTH_MIN,angle);
 
-        panel.getGraphics().drawLine( CENTRE_POSITION_X,
-                                CENTRE_POSITION_Y,
-                            CENTRE_POSITION_X + (int)deltaX,
-                            CENTRE_POSITION_Y + (int)deltaY);
+        // dessine les heures
+        angle = hour * 30 + 0.5 * minute;
+        paintHand(g,hourHandColor,THICKNESS_HOUR,LENGTH_HOUR,angle);
+    }
+
+    private void paintHand(Graphics g, Color c, int thickness, int length, double angle){
+        final int CENTRE_POSITION_X = 105,CENTRE_POSITION_Y = 105;
+        double[] deltas;
+        deltas = getDelta(angle);
+        deltas[0] *= length;
+        deltas[1] *= length;
+        g.setColor(c);
+        ((Graphics2D)g).setStroke(new BasicStroke(thickness));
+        g.drawLine(CENTRE_POSITION_X,CENTRE_POSITION_Y,
+                CENTRE_POSITION_X + (int)deltas[0],CENTRE_POSITION_Y + (int)deltas[1]);
+    }
+    public double[] getDelta(double angle){
+        angle %= 360;
+        angle *= (Math.PI/180);
+        return new double[]{Math.sin(angle), -Math.cos(angle)};
     }
 }

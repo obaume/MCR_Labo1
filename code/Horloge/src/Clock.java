@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Clock extends JFrame implements Observer {
-    protected JPanel panel;
-    protected TextField id;
+public class Clock extends JPanel implements Observer{
     Chrono subject;
     protected int second, minute, hour;
     Clock(Chrono subject){
@@ -12,11 +10,7 @@ public class Clock extends JFrame implements Observer {
         second = subject.getSecond();
         minute = subject.getMinute();
         hour = subject.getHour();
-        panel = new JPanel();
-        panel.setBounds(0,0,200,200);
-        id = new TextField();
-        id.setText(subject.name());
-        panel.add(id);
+        setBounds(0,0,200,200);
     }
     @Override
     public void update(){
@@ -24,5 +18,6 @@ public class Clock extends JFrame implements Observer {
         minute = subject.getMinute();
         hour = subject.getHour();
     }
+
 
 }

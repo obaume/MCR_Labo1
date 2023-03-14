@@ -1,12 +1,15 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
+import javax.swing.Timer;
 import java.util.TimerTask;
 
 
 public class Chrono implements Subject{
     private final int SECOND_IN_HOUR = 3600;
     private final int SECOND_IN_MINUTE = 60;
+    private final int DELAY_IN_MS = 1000;
     private List<Observer> observers = new ArrayList<>();
 
     private Timer timer;
@@ -16,7 +19,12 @@ public class Chrono implements Subject{
 
     Chrono(){
         init();
-        timer = new Timer();
+        timer = new Timer(DELAY_IN_MS, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                increment();
+            }
+        });
         id = next_id++;
     }
 
@@ -39,20 +47,17 @@ public class Chrono implements Subject{
     }
 
     void start(){
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                increment();
-            }
-        },1000);
+        timer.start();
     }
 
     void stop(){
-        timer.cancel();
-        timer.purge();
+        timer.stop();
+        second = 0;
+        notifyObservers();
     }
     void init(){
         second = 0;
+        notifyObservers();
     }
 
     @Override
@@ -72,6 +77,6 @@ public class Chrono implements Subject{
     }
 
     public String name(){
-        return "Chron #" + id;
+        return "Chrono #" + id;
     }
 }

@@ -1,10 +1,13 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import javax.swing.*;
 
 public class Main extends JFrame {
+    Dimension dimension = new Dimension(220,240);
     public static void main(String[] args) {
         int nbClocks = Integer.parseInt(args[0]);
         SwingUtilities.invokeLater(new Runnable() {
@@ -71,23 +74,60 @@ public class Main extends JFrame {
             romanBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Clock roman = new Analog(chronos[finalI], "romain.jpg",
-                                             Color.GRAY, Color.YELLOW, Color.BLACK);
+                    Roman r = new Roman(chronos[finalI]);
+                    JFrame frame = new JFrame();
+                    frame.setSize(dimension);
+                    frame.setLocationRelativeTo(null);
+                    frame.add(r);
+                    frame.setResizable(false);
+                    frame.revalidate();
+                    frame.setVisible(true);
+                    frame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            chronos[finalI].detach(r);
+                        }
+                    });
                 }
             });
 
             arabicBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Clock arab = new Analog(chronos[finalI], "arab.jpg",
-                            Color.BLUE, Color.RED, Color.BLACK);
+                    Arab a = new Arab(chronos[finalI]);
+                    JFrame frame = new JFrame();
+                    frame.setSize(dimension);
+                    frame.setLocationRelativeTo(null);
+                    frame.add(a);
+                    frame.setResizable(false);
+                    frame.revalidate();
+                    frame.setVisible(true);
+                    frame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            chronos[finalI].detach(a);
+                        }
+                    });
                 }
             });
 
             digitalBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Clock digital = new Digital(chronos[finalI]);
+                    Digital d = new Digital(chronos[finalI]);
+                    JFrame frame = new JFrame();
+                    frame.setSize(dimension);
+                    frame.setLocationRelativeTo(null);
+                    frame.add(d);
+                    frame.setResizable(false);
+                    frame.revalidate();
+                    frame.setVisible(true);
+                    frame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            chronos[finalI].detach(d);
+                        }
+                    });
                 }
             });
 
@@ -109,21 +149,60 @@ public class Main extends JFrame {
         romanAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Roman[] romans = new Roman[chronos.length];
+                JFrame frame = new JFrame();
+                frame.setResizable(false);
+                frame.setSize(new Dimension(dimension.width * chronos.length,dimension.height));
+                frame.setLocationRelativeTo(null);
+                frame.setLayout(new GridLayout());
+                for(int i = 0; i < chronos.length; ++i){
+                    romans[i] = new Roman(chronos[i]);
+                    romans[i].setLocation(i * dimension.width, 0);
+                    frame.add(romans[i]);
+                }
+                frame.setResizable(false);
+                frame.revalidate();
+                frame.setVisible(true);
             }
         });
 
         arabicAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Arab[] arabs = new Arab[chronos.length];
+                JFrame frame = new JFrame();
+                frame.setResizable(false);
+                frame.setSize(new Dimension(dimension.width * chronos.length,dimension.height));
+                frame.setLocationRelativeTo(null);
+                frame.setLayout(new GridLayout());
+                for(int i = 0; i < chronos.length; ++i){
+                    arabs[i] = new Arab(chronos[i]);
+                    arabs[i].setLocation(i * dimension.width, 0);
+                    frame.add(arabs[i]);
+                }
+                frame.setResizable(false);
+                frame.revalidate();
+                frame.setVisible(true);
             }
         });
 
         digitalAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Digital[] digitals = new Digital[chronos.length];
+                JFrame frame = new JFrame();
+                frame.setResizable(false);
+                frame.setSize(new Dimension(dimension.width * chronos.length,dimension.height));
+                frame.setLocationRelativeTo(null);
+                frame.setLayout(new GridLayout());
+                for(int i = 0; i < chronos.length; ++i){
+                    digitals[i] = new Digital(chronos[i]);
+                    digitals[i].setLocation(i * dimension.width, 0);
+                    frame.add(digitals[i]);
+                }
+                frame.setResizable(false);
+                frame.revalidate();
+                frame.setVisible(true);
             }
         });
 
