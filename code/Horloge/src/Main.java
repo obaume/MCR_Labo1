@@ -3,29 +3,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.security.KeyStore;
 import java.util.LinkedList;
 import javax.swing.*;
 
+/**
+ * @author Oscar Baume & Dorian Gillioz
+ * Class Main
+ *
+ */
 public class Main extends JFrame {
     Dimension dimension = new Dimension(220,240);
     public static void main(String[] args) {
-        int nbClocks = Integer.parseInt(args[0]);
+        int nbChronos = Integer.parseInt(args[0]);
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Main().createGUI(nbClocks);
+                new Main().createGUI(nbChronos);
             }
         });
     }
 
-    private void createGUI(int nbClocks) {
+    /**
+     * @author Dorian Gillioz
+     * @param nbChronos = nombre de chronomètre voulu
+     * Cette méthode va créer l'affichage principale de l'app
+     */
+    private void createGUI(int nbChronos) {
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 
-        JPanel[] panels = new JPanel[nbClocks + 1];
+        JPanel[] panels = new JPanel[nbChronos + 1];
 
-        Chrono[] chronos = new Chrono[nbClocks];
+        Chrono[] chronos = new Chrono[nbChronos];
 
         LinkedList<JButton> startBtns = new LinkedList<>();
         LinkedList<JButton> stopBtns = new LinkedList<>();
@@ -39,7 +48,7 @@ public class Main extends JFrame {
         JButton digitalAll = new JButton("Numérique");
 
 
-        for (int i = 0; i < nbClocks; ++i) {
+        for (int i = 0; i < nbChronos; ++i) {
             // Création des boutons
             chronos[i] = new Chrono();
             startBtns.add(new JButton("Démarrer"));
@@ -51,6 +60,7 @@ public class Main extends JFrame {
 
             // Action sur les boutons
             int finalI = i;
+            // Ajout du Listener pour démarrer un chronos
             startBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -58,6 +68,7 @@ public class Main extends JFrame {
                 }
             });
 
+            // Ajout du Listener pour arrêter un chronos
             stopBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -65,6 +76,7 @@ public class Main extends JFrame {
                 }
             });
 
+            // Ajout du Listener pour remettre à 0 le chronos
             resetBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -72,9 +84,11 @@ public class Main extends JFrame {
                 }
             });
 
+            // Ajout du Listener pour ajouter une horloge avec nombre romains
             romanBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    // Création de l'observer
                     Roman r = new Roman(chronos[finalI]);
                     JFrame frame = new JFrame();
                     frame.setSize(dimension);
@@ -83,18 +97,22 @@ public class Main extends JFrame {
                     frame.setResizable(false);
                     frame.revalidate();
                     frame.setVisible(true);
+                    // Ajout d'un Listener pour la fermeture de la frame
                     frame.addWindowListener(new WindowAdapter() {
                         @Override
                         public void windowClosing(WindowEvent e) {
+                            // quand on ferme la frame on detache l'observer du chrono
                             chronos[finalI].detach(r);
                         }
                     });
                 }
             });
 
+            // Ajout du Listener pour ajouter une horloge avec nombre arabe
             arabicBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    // Création de l'observeur
                     Arab a = new Arab(chronos[finalI]);
                     JFrame frame = new JFrame();
                     frame.setSize(dimension);
@@ -103,18 +121,22 @@ public class Main extends JFrame {
                     frame.setResizable(false);
                     frame.revalidate();
                     frame.setVisible(true);
+                    // Ajout du Listener pour la fermeture de la frame
                     frame.addWindowListener(new WindowAdapter() {
                         @Override
                         public void windowClosing(WindowEvent e) {
+                            // Quand on ferme la frame on détache l'observeur du chrono
                             chronos[finalI].detach(a);
                         }
                     });
                 }
             });
 
+            // Ajout du Listener pour ajouter une horloge digital
             digitalBtns.get(i).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    // Création de l'observeur
                     Digital d = new Digital(chronos[finalI]);
                     JFrame frame = new JFrame();
                     frame.setSize(dimension);
@@ -123,9 +145,11 @@ public class Main extends JFrame {
                     frame.setResizable(false);
                     frame.revalidate();
                     frame.setVisible(true);
+                    // Ajout du Listener pour la fermeture de la frame
                     frame.addWindowListener(new WindowAdapter() {
                         @Override
                         public void windowClosing(WindowEvent e) {
+                            // Quand on ferme la frame on détache l'observeur du chrono
                             chronos[finalI].detach(d);
                         }
                     });
@@ -147,63 +171,108 @@ public class Main extends JFrame {
         }
 
         // Bouton pour les actions sur tous les chronos
+        // Ajout d'un Listener pour ouvrir tout les horloges à chiffre romains
         romanAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("Toutes les horloges romaines");
+                Roman[] romans = new Roman[chronos.length];
+                // on utilise flowlayout pour que l'affichage soit responsive
                 frame.setLayout(new FlowLayout());
+                // on ajoute les horloges romaines au frame
                 for(int i = 0; i < chronos.length; ++i){
-                    frame.add(new Roman(chronos[i]));
+                    romans[i] = new Roman(chronos[i]);
+                    frame.add(romans[i]);
                 }
                 frame.pack();
+                frame.setSize(frame.getPreferredSize());
                 frame.revalidate();
                 frame.setVisible(true);
+
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        for(int i = 0; i < chronos.length; ++i){
+                            chronos[i].detach(romans[i]);
+                        }
+                    }
+                });
             }
         });
 
+
+        // Ajout d'un Listener pour ouvrir tout les horloges à chiffre arabes
         arabicAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("Toutes les horloges arabiques");
-                frame.setSize(new Dimension(dimension.width * chronos.length,dimension.height));
-                frame.setLocationRelativeTo(null);
+                Arab[] arabs = new Arab[chronos.length];
+                // on utilise flowlayout pour que l'affichage soit responsive
                 frame.setLayout(new FlowLayout());
+                // on ajoute les les horloges arabes au frame
                 for(int i = 0; i < chronos.length; ++i){
-                    frame.add(new Arab(chronos[i]));
+                    arabs[i] = new Arab(chronos[i]);
+                    frame.add(arabs[i]);
                 }
                 frame.pack();
+                frame.setSize(frame.getPreferredSize());
                 frame.revalidate();
                 frame.setVisible(true);
+
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        for (int i = 0; i < chronos.length; ++i) {
+                            chronos[i].detach(arabs[i]);
+                        }
+                    }
+                });
             }
         });
 
+
+        // Ajout d'un Listener pour ouvrir tout les horloges digitale
         digitalAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("Toutes les horloges numériques");
-                frame.setSize(new Dimension(dimension.width * chronos.length,dimension.height));
+                Digital[] digitals = new Digital[chronos.length];
+                // on utilise un flowlayout pour que l'affichage soit responsive
                 frame.setLayout(new FlowLayout());
+                // on ajout les horloges digitales
                 for(int i = 0; i < chronos.length; ++i){
-                    frame.add(new Digital(chronos[i]));
+                    digitals[i] = new Digital(chronos[i]);
+                    frame.add(digitals[i]);
                 }
+                frame.pack();
+                frame.setSize(frame.getPreferredSize());
                 frame.revalidate();
                 frame.setVisible(true);
+
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        for(int i = 0; i < chronos.length; ++i){
+                            chronos[i].detach(digitals[i]);
+                        }
+                    }
+                });
             }
         });
 
         // Dernière ligne
-        panels[nbClocks] = new JPanel();
-        panels[nbClocks].add(new JLabel("Tous les chronos"));
-        panels[nbClocks].add(romanAll);
-        panels[nbClocks].add(arabicAll);
-        panels[nbClocks].add(digitalAll);
-        contentPane.add(panels[nbClocks]);
+        panels[nbChronos] = new JPanel();
+        panels[nbChronos].add(new JLabel("Tous les chronos"));
+        panels[nbChronos].add(romanAll);
+        panels[nbChronos].add(arabicAll);
+        panels[nbChronos].add(digitalAll);
+        contentPane.add(panels[nbChronos]);
 
         // Ptits paramètres pour l'affichage de la fenêtre
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
-        setSize(700, 50 * (nbClocks + 1));
+        setSize(700, 50 * (nbChronos + 1));
         setLocationByPlatform(true);
         setVisible(true);
     }
